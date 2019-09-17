@@ -9,6 +9,9 @@
   "author": "perfectSymphony",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "chalk": "^2.4.2",
+    "config-lite": "^2.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.1"
   }
 }
