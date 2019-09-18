@@ -1,5 +1,7 @@
 'use strict';
 
+// be careful when setting this to true, 
+// as compliant clients will not allow client-side JavaScript to see the cookie in document.cookie
 module.exports = {
   port: parseInt(process.PORT,10) || 8001,
   url: 'mongodb://localhost:27017/nodeJS-admin',
