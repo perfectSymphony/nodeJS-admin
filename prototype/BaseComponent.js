@@ -22,6 +22,7 @@ export default class BaseComponent {
       'avatar',
       'default'
     ];
+    console.log('-------')
   }
   async fetch(url = '', data = {}, type = 'GET', resType = 'JSON'){
     type = type.toUpperCase();

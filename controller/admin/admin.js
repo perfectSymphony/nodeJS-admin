@@ -3,7 +3,6 @@
 import AdminModel from '../../models/admin/amdin';
 import AddressComponent from '../../prototype/addressComponent';
 import crypto from 'crypto';
-import formidable from 'formidable';
 import dtime from 'time-formater';
 
 // A Node.js module for parsing form data, especially file uploads.

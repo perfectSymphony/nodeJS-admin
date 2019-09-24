@@ -20,3 +20,8 @@ const adminSchema = new Schema({
   },
   city: String
 })
+adminSchema.index({id: 1});
+
+const Admin = mongoose.model('Admin', adminSchema);
+
+export default Admin
