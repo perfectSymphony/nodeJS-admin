@@ -100,6 +100,22 @@ class Admin extends AddressComponent {
       // console.log(crypto.getCiphers());
       return md5.update(password).digest('base64');
     }
+    async singout(req, res, next){
+      
+      try {
+        delete req.session.admin_id;
+        res.send({
+          status: 1,
+          success: '退出成功'
+        });
+      } catch(err){
+        console.log('退出失败', err);
+        res.send({
+          status: 0,
+          message: '退出失败'
+        })
+      }
+    }
 }
 
 export default new Admin()
