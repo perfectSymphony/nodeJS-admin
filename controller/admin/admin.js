@@ -1,6 +1,6 @@
 'use strict';
 
-import AdminModel from '../../models/admin/amdin';
+import AdminModel from '../../models/admin/admin';
 import AddressComponent from '../../prototype/addressComponent';
 import crypto from 'crypto';
 import dtime from 'time-formater';
@@ -10,12 +10,11 @@ import formidable from 'formidable';
 
 class Admin extends AddressComponent {
     constructor(){
-      super();
-      this.login = this.login.bind(this);
-      this.encryption = this.encryption.bind(this);
+      super()
+      this.login = this.login.bind(this)
+      this.encryption = this.encryption.bind(this)
     }
-    async login(req, res, next){
-      console.log('121212')
+    async login(req, res, next) {
       // 创建一个incoming form实例 
       const form = new formidable.IncomingForm();
       // 以post方式提交的表单域数据都放在fields这个对象当中
@@ -75,7 +74,7 @@ class Admin extends AddressComponent {
               message: '该用户已存在，且密码输入错误'
             });
           } else {
-            req.session.admin_id = admin_id;
+            req.session.admin_id = admin.id;
             res.send({
               status: 1,
               success: '登录成功'
@@ -98,7 +97,7 @@ class Admin extends AddressComponent {
     Md5(password){
       // https: //www.cnblogs.com/tugenhua0707/p/9128690.html
       const md5 = crypto.createHash('md5');
-      console.log(crypto.getCiphers());
+      // console.log(crypto.getCiphers());
       return md5.update(password).digest('base64');
     }
 }

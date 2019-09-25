@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
 import config from 'config-lite';
 import chalk from 'chalk';
 
-mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true }, function(err,db){})
+mongoose.connect(config.url, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, function(err,db){})
 // Use native promises
 mongoose.Promise = global.Promise
 const db = mongoose.connection;

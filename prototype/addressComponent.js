@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseComponent from './BaseComponent'
-import { resolve } from 'url';
 
 /**
  * 腾讯地图和百度地图API统一调配组件

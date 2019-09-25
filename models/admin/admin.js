@@ -3,7 +3,7 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
-
+// Mongoose 的一切始于 Schema。每个 schema 都会映射到一个 MongoDB collection ，并定义这个collection里的文档的构成。
 const adminSchema = new Schema({
   user_name: String,
   password: String,
@@ -22,6 +22,7 @@ const adminSchema = new Schema({
 })
 adminSchema.index({id: 1});
 
+// 我们要把 schema 转换为一个 Model，
 const Admin = mongoose.model('Admin', adminSchema);
 
 export default Admin
