@@ -7,8 +7,9 @@ const router = express.Router();
 
 router.post('/login', Admin.login);
 router.get('/singout', Admin.singout);
-
 // 获取用户信息
 router.get('/info', Admin.getAdminInfo);
+// 获取管理员列表
+router.get('/all', Admin.getAllAdmin);
 
 export default router

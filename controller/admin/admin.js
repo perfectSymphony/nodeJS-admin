@@ -149,6 +149,27 @@ class Admin extends AddressComponent {
         });
       }
     }
+    async getAllAdmin(req, res, next){
+      console.log(req.query)
+      const { limit = 20, offset = 0 } = req.query;
+      try {
+        // https://www.cnblogs.com/michellexiaoqi/p/7472490.html
+        //  sort() 方法对数据进行排序,使用 1 和 -1 来指定排序的方式，其中 1 为升序排列，而 -1 是用于降序排列
+        const allAdmin = await AdminModel.find({}, '-_id -password').sort({id: -1}).skip(Number(offset)).limit(Number(limit));
+        res.send({
+          status: 1,
+          data: allAdmin
+        })
+
+      }catch(err){
+        console.log('获取超级管理列表失败', err);
+        res.send({
+          status: 0,
+          type: 'ERROR_GET_ADMIN_LIST',
+          message: '获取超级管理列表失败'
+        });
+      }
+    }
 }
 
 export default new Admin()
