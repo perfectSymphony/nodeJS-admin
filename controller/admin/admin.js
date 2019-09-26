@@ -116,6 +116,39 @@ class Admin extends AddressComponent {
         })
       }
     }
+    async getAdminInfo(req, res, next){
+      const admin_id = req.session.admin_id;
+      // Number() 函数把对象的值转换为数字。
+      if(!admin_id || !Number(admin_id)){
+        res.send({
+          status: 0,
+          type: 'ERROR_SESSION',
+          message: '获取管理员信息失败'
+        })
+        return
+      }
+      try {
+        // https://blog.csdn.net/qq_36743013/article/details/69480842
+        // 以下划线"_"开头的键是保留的(不是严格要求的)。
+        const info = await AdminModel.findOne({id: admin_id}, '-_id -__v -password');
+        if(!info){
+          throw new Error('未找到当前管理员');
+        } else {
+          res.send({
+            status: 1,
+            data: info
+          })
+        }
+
+      } catch(err){
+        console.log('获取管理员信息失败');
+        res.send({
+          status: 0,
+          type: 'GET_ADMIN_INFO_FAILED',
+          message: '获取管理员信息失败'
+        });
+      }
+    }
 }
 
 export default new Admin()
