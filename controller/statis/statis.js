@@ -32,5 +32,21 @@ class Statis {
             });
         }
     }
+    async apiAllCount(req, res, next){
+      try {
+        const count = await StatisModel.count()
+        res.send({
+          status: 1,
+          count
+        })
+      }catch(err){
+        console.log('获取所有API请求次数失败', err);
+        res.send({
+          status: 0,
+          type: 'ERROR_GET_ALL_API_COUNT',
+          message: '获取所有API请求次数失败'
+        });
+      }
+    }
 }
 export default new Statis()
