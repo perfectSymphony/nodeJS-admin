@@ -22,7 +22,7 @@ const adminSchema = new Schema({
 })
 adminSchema.index({id: 1});
 
-// 我们要把 schema 转换为一个 Model，
+// 把 schema 转换为一个 Model，
 const Admin = mongoose.model('Admin', adminSchema);
 
 export default Admin
