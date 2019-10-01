@@ -179,6 +179,9 @@ class Shop extends AddressComponent {
       }
     })
   }
+  async addCategory(req, res, next){
+    
+  }
 }
 
 export default new Shop()

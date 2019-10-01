@@ -9,5 +9,6 @@ const router = express.Router();
 
 router.post('/addshop', Check.checkAdmin, Shop.addShop);
 router.get('/getcategory/:restaurant_id', Food.getCategory);
+router.post('/addcategory', Check.checkAdmin, Food.addCategory);
 
 export default router

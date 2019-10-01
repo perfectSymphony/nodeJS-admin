@@ -2,6 +2,7 @@
 
 import BaseComponent from "../../prototype/BaseComponent";
 import { Menu as MenuModel } from '../../models/shopping/food';
+import formidable from 'formidable';
 
 class Food extends BaseComponent {
   constructor(){
@@ -21,6 +22,7 @@ class Food extends BaseComponent {
       foods: []
     }],
     this.initData = this.initData.bind(this);
+    this.addCategory = this.addCategory.bind(this)
   }
   async initData(restaurant_id){
     for(let i = 0; i < this.defaultData.length; i++){
@@ -64,6 +66,61 @@ class Food extends BaseComponent {
         message: '获取数据失败'
       });
     }
+  }
+  async addCategory(req, res, next){
+    const form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, files) => {
+      try{
+        if(!fields.name){
+          throw new Error('必须填写食品类型名称');
+        }else if(!fields.restaurant_id){
+          throw new Error('餐馆ID错误');
+        }
+      }catch(err){
+        console.log(err.message, err);
+        res.send({
+          status: 0,
+          type: 'ERROR_PARAM',
+          message: err.message
+        });
+        return
+      }
+      let category_id;
+      try{
+        category_id = await this.getId('category_id');
+      }catch(err){
+        console.log('获取category_id失败');
+        res.send({
+          status: 0,
+          type: 'ERROR_DATA',
+          message: err.message
+        });
+        return
+      }
+      const foodObj = {
+        name: fields.name,
+        description: fields.description,
+        restaurant_id: fields.restaurant_id,
+        id: category_id,
+        foods: []
+      }
+      const newFood = new MenuModel(foodObj);
+      try{
+        await newFood.save();
+        res.send({
+          status: 1,
+          success: '添加食品种类成功',
+          newFood
+        });
+      }catch(err){
+        console.log('保存数据失败', err);
+        res.send({
+          status: 0,
+          type: 'ERROR_DATA',
+          message: err.message
+        });
+      }
+    });
   }
 }
 
