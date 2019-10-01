@@ -1,16 +1,19 @@
 'use strict';
 
 import AddressComponent from '../../prototype/addressComponent';
+import formidable from 'formidable';
 import ShopModel from '../../models/shopping/Shop';
 import CategoryHandle from './category';
+import Rating from '../ugc/rating';
+import Food from './food';
 
 class Shop extends AddressComponent {
   constructor(){
     super();
-    this.addshop = this.addshop.bind(this);
+    this.addShop = this.addShop.bind(this);
   }
   // 添加商铺
-  async addshop(req, res, next){
+  async addShop(req, res, next){
     let restaurant_id;
     try{
       restaurant_id = await this.getId('restaurant_id');
@@ -72,7 +75,7 @@ class Shop extends AddressComponent {
         opening_hours: [opening_hours],
         phone: fields.phone,
         promotion_info: fields.promotion_info || '欢迎光临，用餐高峰期，请提前下单',
-        rating: (4 + Math.random()).tofixed(1),
+        rating: (4 + Math.random()).toFixed(1),
         rating_count: Math.ceil(Math.random() * 1000),
         recent_order_num: Math.ceil(Math.random()*1000),
         status: Math.round(Math.round()),
@@ -109,6 +112,7 @@ class Shop extends AddressComponent {
           text: '蜂鸟专送'
         }})
       }
+      console.log(fields)
       // 商店支持的活动
       fields.activities.forEach((item, index) => {
         switch (icon_name) {
@@ -133,7 +137,7 @@ class Shop extends AddressComponent {
       })
       if(fields.bao){
         newShop.supports.push({
-          description: '已加入“外卖保”计划，食品安全有保障'，
+          description: '已加入“外卖保”计划，食品安全有保障',
           icon_color: '999',
           icon_name: '保',
           id: 7,
@@ -163,6 +167,8 @@ class Shop extends AddressComponent {
         const shop = new ShopModel(newShop);
         await shop.save();
         CategoryHandle.addCategory(fields.category);
+        Rating.initData(restaurant_id);
+        Food.initData(restaurant_id);
       }catch(err){
         console.log('商铺写入数据库失败', err);
         res.send({
@@ -174,3 +180,5 @@ class Shop extends AddressComponent {
     })
   }
 }
+
+export default new Shop()

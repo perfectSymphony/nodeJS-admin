@@ -29,3 +29,5 @@ class Check {
     next()
   }
 }
+
+export default new Check()
