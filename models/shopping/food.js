@@ -196,4 +196,4 @@ menuSchema.index({id: 1});
 
 const Menu = mongoose.model('Menu', menuSchema);
 
-export default Menu;
+export { Menu };

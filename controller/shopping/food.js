@@ -47,7 +47,24 @@ class Food extends BaseComponent {
       }
     }
   }
-
+  async getCategory(req, res, next){
+    const restaurant_id = req.param.restaurant_id;
+    try{
+      console.log(MenuModel)
+      const category_list = await MenuModel.find({restaurant_id});
+      res.send({
+        status: 1,
+        category_list
+      });
+    }catch(err){
+      console.log('获取餐馆食品的种类', err);
+      res.send({
+        status: 0,
+        type: 'ERROR_GET_DATA',
+        message: '获取数据失败'
+      });
+    }
+  }
 }
 
 export default new Food()
