@@ -14,7 +14,6 @@ import BaseComponent from './BaseComponent'
      this.tencentkey3 = 'OHTBZ-7IFRG-JG2QF-IHFUK-XTTK6-VXFBN';
      this.tencentkey4 = 'Z2BBZ-QBSKJ-DFUFG-FDGT3-4JRYV-JKF5O';
      this.baidukey = 'fjke3YUipM9N64GdOIh1DNeK2APO2WcT';
-
    }
    //获取定位地址
    async guessPosition(req){
@@ -74,6 +73,25 @@ import BaseComponent from './BaseComponent'
           reject(err);
        }
      })
+   }
+  //  搜索地址
+  // encodeURIComponent()可把字符串作为 URI 组件进行编码
+   async searchPlace(keyword, cityName, type = 'search'){
+     try{
+       const resObj = await this.fetch('http://apis.map.qq.com/ws/place/v1/search', {
+         key: this.tencentkey,
+         keyword: encodeURIComponent(keyword),
+         boundary: 'region('+ encodeURIComponent(cityName) +', 0)',
+         page_size: 10
+       });
+       if(resObj.status == 0){
+         return resObj;
+       } else {
+         throw new Error('搜索位置信息失败');
+       }
+     }catch(err){
+       throw new Error(err)
+     }
    }
  }
 
