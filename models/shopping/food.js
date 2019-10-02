@@ -194,6 +194,9 @@ const menuSchema = new Schema({
 
 menuSchema.index({id: 1});
 
+const Food = mongoose.model('Food', foodSchema);
+
 const Menu = mongoose.model('Menu', menuSchema);
 
-export { Menu };
+
+export { Food, Menu };

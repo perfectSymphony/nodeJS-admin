@@ -7,8 +7,13 @@ import Food from '../controller/shopping/food';
 
 const router = express.Router();
 
+// 添加店铺
 router.post('/addshop', Check.checkAdmin, Shop.addShop);
+// 获取当前店铺食品种类
 router.get('/getcategory/:restaurant_id', Food.getCategory);
+// 添加食品种类
 router.post('/addcategory', Check.checkAdmin, Food.addCategory);
+// 添加食品
+router.post('/addfood', Check.checkAdmin, Food.addFood);
 
 export default router
