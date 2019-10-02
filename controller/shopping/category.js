@@ -19,6 +19,23 @@ class Category extends BaseComponent {
       });
     }
   }
+  //获取所有餐馆的分类和数量
+  async getCategories(req, res, next){
+    try{
+      const categories = await CategoryModel.find({}, '-_id');
+      res.send({
+        status: 1,
+        categories
+      });      
+    }catch(err){
+      console.log('获取所有分类失败', err.message);
+      res.send({
+        status: 0,
+        type: 'ERROR_DATA',
+        message: err.message
+      });
+    }
+  }
 }
 
 export default new Category()
