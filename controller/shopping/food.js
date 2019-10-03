@@ -25,6 +25,7 @@ class Food extends BaseComponent {
     this.addFood = this.addFood.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.getSpecfoods = this.getSpecfoods.bind(this);
+    this.updateFood = this.updateFood.bind(this);
   }
   async initData(restaurant_id){
     for(let i = 0; i < this.defaultData.length; i++){
@@ -398,6 +399,88 @@ class Food extends BaseComponent {
         message: err.message
       });
     }
+  }
+  async updateFood(req, res, next){
+    const form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, filter) => {
+      if(err){
+        console.log('获取食品信息失败', err);
+        res.send({
+          status: 0,
+          type: 'ERROR_FORM',
+          message: err.message
+        });
+        return
+      }
+      const {
+        name,
+        item_id,
+        description = '',
+        image_path,
+        category_id,
+        new_category_id
+      } = fields;
+      try{
+        if(!name){
+          throw new Error('食品名称错误');
+        }else if(!item_id || !Number(item_id)){
+          throw new Error('食品ID错误');
+        }else if(!category_id || !Number(category_id)){
+          throw new Error('食品分类ID错误');
+        }else if(!image_path){
+          throw new Error('食品图片地址错误')
+        }
+        const [specfoods, specifications] = this.getSpecfoods(fields, item_id);
+        let newData;
+        if(new_category_id !== category_id){
+          newData = {
+            name,
+            description,
+            image_path,
+            category_id: new_category_id,
+            specfoods,
+            specifications
+          }
+          const food = await FoodModel.findOneAndUpdate({item_id}, {$set: newData});
+
+          const menu = await MenuModel.findOne({id: category_id});
+          const targetmenu = await MenuModel.findOne({id: category_id});
+          
+          let subFood = menu.foods.id(food._id);
+          subFood.set(newData);
+          targetmenu.foods.push(subFood);
+          targetmenu.markmidified('foods');
+          await targetmenu.save();
+          await subFood.remove();
+          await menu.save();
+        } else {
+          newData = {
+            name,
+            description,
+            image_path,
+            specfoods,
+            specifications
+          }
+          const food = await FoodModel.findOneAndUpdate({item_id}, {$set: newData});
+
+          const menu = await MenuModel.findOne({id: category_id});
+          let subFood = menu.foods.id(food._id);
+          subFood.set(newData);
+          await menu.save();
+        }
+        res.send({
+          status: 1,
+          success: '修改食品信息成功'
+        });
+      }catch(err){
+        console.log(err.message, err);
+        res.send({
+          status: 0,
+          type: 'ERROR_UPDATE_FOOD',
+          message: '更新食品信息失败'
+        });
+      }
+    });
   }
 }
 
