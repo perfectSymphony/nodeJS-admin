@@ -327,7 +327,7 @@ class Food extends BaseComponent {
     } = req.query;
     try{
       let filter = {};
-      if(!restaurant_id && Number(restaurant_id)){
+      if(restaurant_id && Number(restaurant_id)){
         // const restaurant_id = 1;
         // {restaurant_id}
         // {restaurant_id: 1}restaurant_id: 1__proto__: Object
@@ -346,6 +346,28 @@ class Food extends BaseComponent {
         message: err.message
       })
       return
+    }
+  }
+  async getFoodsCount(req, res, next){
+    const restaurant_id = req.query.restaurant_id;
+    try{
+      let filter = {};
+      if(restaurant_id && Number(restaurant_id)){
+        filter = {restaurant_id}
+      }
+      const count = await FoodModel.find(filter).count();
+      res.send({
+        status: 1,
+        count
+      });
+      return
+    }catch(err){
+      console.log('获取食品数量失败', err);
+      res.send({
+        status: 0,
+        type: 'GET_COUNT_ERROR',
+        message: err.message
+      });
     }
   }
 }

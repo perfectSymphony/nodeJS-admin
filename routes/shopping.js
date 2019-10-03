@@ -30,5 +30,7 @@ router.get('/restaurants/count', Shop.getShopCount);
 router.delete('/restaurant/:restaurant_id', Check.checkAdmin, Shop.deleteResturant);
 //获取食品列表
 router.get('/v2/foods', Food.getFoods);
+//获取食品数量
+router.get('/v2/foods/count', Food.getFoodsCount);
 
 export default router
