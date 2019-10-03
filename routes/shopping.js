@@ -28,4 +28,7 @@ router.post('/updateshop', Check.checkAdmin, Shop.updateshop);
 router.get('/restaurants/count', Shop.getShopCount);
 //删除餐馆信息
 router.delete('/restaurant/:restaurant_id', Check.checkAdmin, Shop.deleteResturant);
+//获取食品列表
+router.get('/v2/foods', Food.getFoods);
+
 export default router

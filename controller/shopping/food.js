@@ -319,6 +319,35 @@ class Food extends BaseComponent {
     }
     return [specfoods, specifications]
   }
+  async getFoods(req,res, next){
+    const {
+      restaurant_id,
+      limit = 20,
+      offset = 0
+    } = req.query;
+    try{
+      let filter = {};
+      if(!restaurant_id && Number(restaurant_id)){
+        // const restaurant_id = 1;
+        // {restaurant_id}
+        // {restaurant_id: 1}restaurant_id: 1__proto__: Object
+        filter = {restaurant_id}
+      }
+      const foods = await FoodModel.find(filter, '-_id').sort({item_id: -1}).limit(Number(limit)).skip(Number(offset));
+      res.send({
+        status: 1,
+        foods
+      });
+    }catch(err){
+      console.log('获取食品数据失败', err);
+      res.send({
+        status: 0,
+        type: 'GET_DATA_ERROR',
+        message: err.message
+      })
+      return
+    }
+  }
 }
 
 export default new Food()
