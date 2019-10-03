@@ -405,6 +405,22 @@ class Shop extends AddressComponent {
       }
     });
   }
+  async getShopCount(req, res, next){
+    try{
+      const count = await ShopModel.count();
+      res.send({
+        status: 1,
+        count
+      }); 
+    }catch(err){
+      console.log('获取餐馆数量失败', err);
+      res.send({
+        status: 0,
+        type: 'ERROR_GET_COUNT',
+        message: err.message
+      });
+    }
+  }
 }
 
 export default new Shop()
