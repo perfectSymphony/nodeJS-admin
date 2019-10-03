@@ -294,6 +294,33 @@ class Shop extends AddressComponent {
       });
     }
   }
+  //获取餐馆详细信息
+  async getRestaurantDetail(req, res, next){
+    const restaurant_id = req.params.restaurant_id;
+    if(!restaurant_id || !Number(restaurant_id)){
+      console.log('获取餐馆详情参数ID错误');
+      res.send({
+        status: 0,
+        type: 'ERROR_PARAMS',
+        message: '餐馆ID参数错误'
+      });
+      return
+    }
+    try{
+      const restaurant = await ShopModel.findOne({id: restaurant_id}, '-_id');
+      res.send({
+        status: 0,
+        restaurant
+      });
+    }catch(err){
+      console.log('获取餐馆详情失败', err);
+      res.send({
+        status: 0,
+        type: 'GET_DATA_ERROR',
+        message: err.message
+      });
+    }
+  }
 }
 
 export default new Shop()

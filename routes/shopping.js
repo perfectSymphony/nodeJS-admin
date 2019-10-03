@@ -20,4 +20,7 @@ router.post('/addfood', Check.checkAdmin, Food.addFood);
 router.get('/v2/restaurant/category', Category.getCategories);
 //获取餐馆的列表列表
 router.get('/restaurants', Shop.getRestaurants);
+//获取餐馆的详细信息
+router.get('/restaurant/:restaurant_id', Shop.getRestaurantDetail);
+
 export default router
