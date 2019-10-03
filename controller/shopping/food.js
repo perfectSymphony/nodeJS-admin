@@ -482,6 +482,41 @@ class Food extends BaseComponent {
       }
     });
   }
+  async deleteFood(req, res, next){
+    const food_id = req.params.food_id;
+    if(!food_id || !Number(food_id)){
+      console.log('食品ID参数错误');
+      res.send({
+        status: 0,
+        type: 'ERROR_PARAMS',
+        message: '食品ID参数错误'
+      });
+      return
+    }
+    try{
+      const food = await FoodModel.findOne({item_id: food_id});
+      
+      //思考一下
+      // const menu = await MenuModel.findOne({id: food.category_id});
+      // console.log(menu)
+      // let subFood = menu.foods.id(foo._id);
+      // await subFood.remove();
+      // await menu.save();
+      
+      await food.remove();
+      res.send({
+        status: 1,
+        success: '删除食品成功'
+      });
+    }catch(err){
+      console.log('删除食品失败', err);
+      res.send({
+        status: 0,
+        type: 'DELETE_FOOD_FAILED',
+        message: '删除食品失败'
+      });
+    }
+  }
 }
 
 export default new Food()
