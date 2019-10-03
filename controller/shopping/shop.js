@@ -321,6 +321,90 @@ class Shop extends AddressComponent {
       });
     }
   }
+  // 更新餐馆信息
+  async updateshop(req, res, next){
+    const form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, files) => {
+      if(err){
+        console.log('获取商铺信息出错', err);
+        res.send({
+          status: 0,
+          type: 'ERROR_FORM',
+          message: err.message
+        });
+        return
+      }
+      const {
+        name,
+        address,
+        description = '',
+        phone,
+        category,
+        id,
+        latitude,
+        longitude,
+        image_path
+      } =fields;
+      if(id === 1){
+        res.send({
+          status: 0,
+          message: '此店铺用作展示，请不要修改'
+        })
+        return
+      }
+      try{
+        if(!name){
+          throw new Error('餐馆名称错误');
+        }else if(!address){
+          throw new Error('餐馆地址错误')
+        }else if(!phone){
+          throw new Error('餐馆联系电话错误');
+        }else if(!category){
+          throw new Error('餐馆分类错误');
+        }else if(!id || !Number(id)){
+          throw new Error('餐馆ID错误')
+        }else if(!image_path){
+          throw new Error('餐馆图片地址错误')
+        }
+        let newData;
+        if(latitude && longitude){
+          newData = {
+            name,
+            address,
+            description,
+            phone,
+            category,
+            latitude,
+            longitude,
+            image_path
+          }
+        } else {
+          newData = {
+            name,
+            address,
+            description,
+            phone,
+            category,
+            image_path
+          }
+        }
+        // https://blog.csdn.net/u014267351/article/details/51212107
+        // new属性true返回修改后的document；false返回原始数据
+        await ShopModel.findOneAndUpdate({id}, {$set: newData},{new: true});
+        res.send({
+          status: 1,
+          success: '修改商铺信息成功'
+        });
+      }catch(err){
+        console.log(err.message, err);
+        res.send({
+          status: 0,
+          type: 'ERROR_UPDATE_RESTAURANT',
+          message: '更新商铺信息失败'
+        });
+      }
+    });
+  }
 }
 
 export default new Shop()

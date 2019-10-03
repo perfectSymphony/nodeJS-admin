@@ -22,5 +22,7 @@ router.get('/v2/restaurant/category', Category.getCategories);
 router.get('/restaurants', Shop.getRestaurants);
 //获取餐馆的详细信息
 router.get('/restaurant/:restaurant_id', Shop.getRestaurantDetail);
+// 更新餐馆信息
+router.post('/updateshop', Check.checkAdmin, Shop.updateshop);
 
 export default router
