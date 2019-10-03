@@ -421,6 +421,39 @@ class Shop extends AddressComponent {
       });
     }
   }
+  async deleteResturant(req, res, next){
+    const restaurant_id = req.params.restaurant_id;
+    if(!restaurant_id || !Number(restaurant_id)){
+      console.log('餐馆ID错误');
+      res.send({
+        status: 0,
+        type: 'ERROR_PARAMS',
+        message: '餐馆ID错误'
+      });
+      return
+    }
+    if(restaurant_id === 1){
+      res.send({
+        status: 0,
+        message: '此店铺用作展示，请不要删除'
+      });
+    }
+    try{
+      await ShopModel.remove({id: restaurant_id});
+      res.send({
+        status: 1,
+        message: '餐馆删除成功'
+      });
+    }catch(err){
+      console.log('餐馆删除失败', err);
+      res.send({
+        status: 0,
+        type: 'DELETE_RESTAURANTS_FAILED',
+        message: '删除餐馆失败'
+      });
+      return
+    }
+  }
 }
 
 export default new Shop()

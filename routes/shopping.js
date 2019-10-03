@@ -26,5 +26,6 @@ router.get('/restaurant/:restaurant_id', Shop.getRestaurantDetail);
 router.post('/updateshop', Check.checkAdmin, Shop.updateshop);
 //获取餐馆的数量
 router.get('/restaurants/count', Shop.getShopCount);
-
+//删除餐馆信息
+router.delete('/restaurant/:restaurant_id', Check.checkAdmin, Shop.deleteResturant);
 export default router
