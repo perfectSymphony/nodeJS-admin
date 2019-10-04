@@ -13,5 +13,9 @@ router.get('/cities', CityHandle.getCity);
 router.get('/pois', SearchPlace.search);
 // 获取用户列表
 router.get('/users/list', User.getUserList);
+//获取用户数量
+router.get('/users/count', User.getUserCount);
+//获取用户信息
+router.get('/users/:user_id', User.getInfoById);
 
 export default router;
