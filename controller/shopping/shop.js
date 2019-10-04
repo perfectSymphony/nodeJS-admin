@@ -254,6 +254,7 @@ class Shop extends AddressComponent {
       })
       if(filterArr.length){
         // 匹配同时拥有多种活动的数据
+        //https://segmentfault.com/a/1190000016087635
         Object.assign(filter, {'supports.id': {$all: filterArr}});
       }
     }

@@ -5,6 +5,7 @@ import Shop from '../controller/shopping/shop';
 import Check from '../middlewares/check';
 import Food from '../controller/shopping/food';
 import Category from '../controller/shopping/category';
+import food from '../controller/shopping/food';
 
 const router = express.Router();
 
@@ -38,5 +39,6 @@ router.post('/v2/updatefood',Check.checkAdmin, Food.updateFood);
 router.delete('/v2/food/:food_id', Check.checkSuperAdmin, Food.deleteFood);
 // 获取食品列表
 router.get('/v2/menu', Food.getMenu);
-
+// 获取食品详情
+router.get('/v2/menu/:category_id', Food.getMenuDetail);
 export default router

@@ -551,6 +551,32 @@ class Food extends BaseComponent {
       });
     }
   }
+  async getMenuDetail(req, res, next){
+    const category_id = req.params.category_id;
+    if(!category_id || !Number(category_id)){
+      console.log('获取Menu详情参数ID错误');
+      res.send({
+        status: 0,
+        type: 'ERROR_PARAMS',
+        message: '菜单ID错误'
+      });
+      return
+    }
+    try{
+      const menu = await MenuModel.findOne({id: category_id}, '-_id');
+      res.send({
+        status: 1,
+        menu
+      })
+    }catch(err){
+      console.log('获取菜单详情失败', err);
+      res.send({
+        status: 0,
+        type: 'GET_DATA_ERROR',
+        message: '获取菜单详情失败'
+      });
+    }
+  }
 }
 
 export default new Food()
