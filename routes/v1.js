@@ -17,5 +17,7 @@ router.get('/users/list', User.getUserList);
 router.get('/users/count', User.getUserCount);
 //获取用户信息
 router.get('/users/:user_id', User.getInfoById);
+//获取用户分布信息
+router.get('/user/city/count', User.getUserCity);
 
 export default router;
