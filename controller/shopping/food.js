@@ -517,6 +517,40 @@ class Food extends BaseComponent {
       });
     }
   }
+  // 获取食品列表
+  async getMenu(req, res, next){
+    const restaurant_id = req.query.restaurant_id;
+    const allmenu = req.query.allmenu;
+    if(!restaurant_id || !Number(restaurant_id)){
+      console.log('获取餐馆参数ID错误');
+      res.send({
+        status: 0,
+        type: 'ERROR_PARAMS',
+        message: '餐馆ID错误'
+      });
+      return
+    }
+    let filter;
+    if(allmenu){
+      filter = {restaurant_id}
+    }else{
+      filter = {restaurant_id, $where: function(){return this.foods.length}};
+    }
+    try{
+      const menu = await MenuModel.find(filter, '-_id');
+      res.send({
+        status: 1,
+        menu
+      });
+    }catch(err){
+      console.log('获取食品数据失败', err);
+      res.send({
+        status: 0,
+        type: 'GET_DATA_ERROR',
+        message: '获取食品数据失败'
+      });
+    }
+  }
 }
 
 export default new Food()

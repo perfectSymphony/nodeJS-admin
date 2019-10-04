@@ -36,5 +36,7 @@ router.get('/v2/foods/count', Food.getFoodsCount);
 router.post('/v2/updatefood',Check.checkAdmin, Food.updateFood);
 //删除食品
 router.delete('/v2/food/:food_id', Check.checkSuperAdmin, Food.deleteFood);
+// 获取食品列表
+router.get('/v2/menu', Food.getMenu);
 
 export default router
