@@ -90,4 +90,4 @@ userInfoSchema.index({id: 1});
 
 const UserInfo = mongoose.model('UserInfo', userInfoSchema);
 
-export default UserInfo
+export default UserInfo;

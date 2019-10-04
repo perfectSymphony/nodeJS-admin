@@ -5,7 +5,6 @@ import Shop from '../controller/shopping/shop';
 import Check from '../middlewares/check';
 import Food from '../controller/shopping/food';
 import Category from '../controller/shopping/category';
-import food from '../controller/shopping/food';
 
 const router = express.Router();
 
