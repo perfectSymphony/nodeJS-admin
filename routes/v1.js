@@ -4,6 +4,7 @@ import express from 'express';
 import CityHandle from '../controller/v1/cities';
 import SearchPlace from  '../controller/v1/search';
 import User from '../controller/v2/user';
+import Address from '../controller/v1/address';
 
 const router = express.Router();
 
@@ -19,5 +20,7 @@ router.get('/users/count', User.getUserCount);
 router.get('/users/:user_id', User.getInfoById);
 //获取用户分布信息
 router.get('/user/city/count', User.getUserCity);
+// 获取地址信息
+router.get('/address/:address_id', Address.getAddAddressById);
 
 export default router;
